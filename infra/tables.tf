@@ -13,6 +13,26 @@ resource "aws_dynamodb_table" "user_table" {
   }
 }
 
+resource "aws_dynamodb_table" "session_table" {
+  name         = "Session"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "sessionId"
+
+  attribute {
+    name = "sessionId"
+    type = "S"
+  }
+
+  ttl {
+    attribute_name = "expireOn"
+    enabled        = true
+  }
+
+  tags = {
+    Name = "Session"
+  }
+}
+
 
 resource "aws_dynamodb_table" "tipo_pagamento_table" {
   name         = "TipoPagamento"
@@ -35,24 +55,23 @@ resource "aws_dynamodb_table" "tipo_pagamento_table" {
   }
 }
 
-resource "aws_dynamodb_table" "categoria_pagamento_table" {
-  name         = "CategoriaPagamento"
+resource "aws_dynamodb_table" "despesa_table" {
+  name         = "Despesa"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "categoriaPagamentoId"
-  range_key    = "tipoPagamentoId"
-
+  hash_key     = "userId"
+  range_key    = "despesaId"
 
   attribute {
-    name = "categoriaPagamentoId"
+    name = "userId"
     type = "S"
   }
 
   attribute {
-    name = "tipoPagamentoId"
+    name = "despesaId"
     type = "S"
   }
 
   tags = {
-    Name = "CategoriaPagamento"
+    Name = "Despesa"
   }
 }
